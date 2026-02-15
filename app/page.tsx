@@ -1,65 +1,77 @@
-import Image from "next/image";
+'use client';
+import React, { Suspense, useState } from 'react';
+import Spline from '@splinetool/react-spline';
+import { Mail, Facebook, Instagram, Linkedin, Twitter, Github, Loader2 } from 'lucide-react';
 
 export default function Home() {
+  const [loading, setLoading] = useState(true);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <main className="relative min-h-screen bg-black text-white">
+      
+      {/* LOADING OVERLAY */}
+      {loading && (
+        <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black">
+          <Loader2 className="w-10 h-10 animate-spin text-white mb-4" />
+          <p className="tracking-[0.3em] uppercase text-xs text-zinc-500">Initializing 3D World...</p>
+        </div>
+      )}
+
+      {/* HEADER */}
+      <header className="fixed top-0 left-1/2 -translate-x-1/2 z-50 pt-10 pointer-events-none w-full text-center">
+        <h1 className="text-2xl md:text-4xl font-extrabold tracking-[0.3em] uppercase pointer-events-auto bg-clip-text text-transparent bg-gradient-to-b from-white to-zinc-500 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+          fahad.social
+        </h1>
+      </header>
+
+      {/* 1. THE 3D SCENE */}
+      <section className="h-screen w-full sticky top-0 z-0">
+        <Spline 
+          scene="/scene.splinecode" 
+          onLoad={() => setLoading(false)} // This turns off the loading screen
+          className="w-full h-full" 
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+      </section>
+
+      {/* 2. SOCIAL LINKS */}
+      <div className="fixed top-1/2 -translate-y-1/2 left-[5%] md:left-[8%] z-50 pointer-events-none">
+        <div className="pointer-events-auto flex flex-col gap-6 p-5 rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-[0_0_20px_rgba(0,0,0,0.5)]">
+          <a href="https://github.com/omarbinfahad" target="_blank" className="hover:text-zinc-400 transition-colors"><Github size={26} /></a>
+          <a href="https://facebook.com/fahadomarbin" target="_blank" className="hover:text-zinc-400 transition-colors"><Facebook size={26} /></a>
+          <a href="https://instagram.com/o.marbf" target="_blank" className="hover:text-zinc-400 transition-colors"><Instagram size={26} /></a>
+          <a href="https://x.com/fahadomarbin" target="_blank" className="hover:text-zinc-400 transition-colors"><Twitter size={26} /></a>
+          <a href="https://linkedin.com/in/omarbinfahad" target="_blank" className="hover:text-zinc-400 transition-colors"><Linkedin size={26} /></a>
+          <a href="mailto:fahadomarbin@email.com" className="hover:text-zinc-400 transition-colors"><Mail size={26} /></a>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+      </div>
+
+      {/* 3. SCROLL DOWN CONTENT (FORM) */}
+      <section className="relative z-20 min-h-screen flex flex-col items-center justify-center bg-gradient-to-t from-black via-black/90 to-transparent px-8">
+        <div className="w-full max-w-sm space-y-8 text-center">
+          <h2 className="text-xl tracking-[0.4em] uppercase font-light text-zinc-400">Stay Connected</h2>
+          
+          <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" className="flex flex-col gap-4">
+            <input 
+              type="email" 
+              name="email"
+              required
+              placeholder="Your email address" 
+              className="bg-transparent border-b border-zinc-700 p-4 focus:outline-none focus:border-white transition-all text-center placeholder:text-zinc-600"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            <button type="submit" className="mt-4 text-xs tracking-[0.5em] uppercase border border-white/20 px-8 py-4 rounded-full hover:bg-white hover:text-black transition-all">
+              Subscribe
+            </button>
+          </form>
         </div>
-      </main>
-    </div>
+
+        <div className="mt-40 text-center space-y-4">
+          <p className="text-zinc-500 font-light text-sm italic">Thank you for visiting here.</p>
+          <footer className="text-[10px] text-zinc-700 tracking-[0.4em] uppercase">
+            Made with Love from Sydney, Australia
+          </footer>
+        </div>
+      </section>
+
+    </main>
   );
 }
